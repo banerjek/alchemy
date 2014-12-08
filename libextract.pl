@@ -9,6 +9,8 @@
  
 use strict;
 use AlchemyAPI;
+use CAM::PDF;
+use LWP::Simple;
 
 # Create the AlchemyAPI object.
 my $alchemyObj = new AlchemyAPI();
@@ -21,11 +23,37 @@ if ($alchemyObj->LoadKey("api_key.txt") eq "error")
 
 
 my $result = '';
+my $doc = '';
+my $url = '';
+my $filename = 'temp_pdf';
 
+
+my $entityParams = new AlchemyAPI_EntityParams();
+$entityParams->SetDisambiguate(0);
+$entityParams->SetLinkedData(0);
+$entityParams->SetOutputMode('xml');
+
+$url = 'http://digitalcommons.ohsu.edu/cgi/viewcontent.cgi?article=1000&context=hca-oralhist'; 
+
+my $content = get($url);
+die "Couldn't get it!" unless defined $content;
+
+open(PDFFILE, '>', $filename);
+print PDFFILE $content;
+close PDFFILE;
+
+
+my $pdf = CAM::PDF->new($filename);
+
+for (my $i=1; $i <= $pdf->numPages(); $i++) {
+	$doc = $doc.$pdf->getPageText($i);
+	}
 
 # Get a ranked list of named entities for a web URL.
-$result = $alchemyObj->URLGetRawText("http://nwda.orbiscascade.org/ark:/80444/xv08340");
-$result = $alchemyObj->URLGetRankedNamedEntities("http://nwda.orbiscascade.org/ark:/80444/xv08340");
+#$result = $alchemyObj->URLGetRawText("http://nwda.orbiscascade.org/ark:/80444/xv08340");
+#$result = $alchemyObj->URLGetRankedNamedEntities("http://nwda.orbiscascade.org/ark:/80444/xv08340", $entityParams);
+#$result = $alchemyObj->URLGetRankedNamedEntities("http://digitalcommons.ohsu.edu/fdadrug/", $entityParams);
+$result = $alchemyObj->TextGetRankedNamedEntities($doc, $entityParams);
 if ($result ne "error")
 {
 	printf $result;
