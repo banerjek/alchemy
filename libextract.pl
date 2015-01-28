@@ -10,7 +10,9 @@
 use strict;
 use AlchemyAPI;
 use CAM::PDF;
+use PDF::OCR2;
 use LWP::Simple;
+
 
 # Create the AlchemyAPI object.
 my $alchemyObj = new AlchemyAPI();
@@ -34,8 +36,9 @@ $entityParams->SetDisambiguate(0);
 $entityParams->SetLinkedData(0);
 $entityParams->SetOutputMode('xml');
 
-$url = 'http://digitalcommons.ohsu.edu/cgi/viewcontent.cgi?article=1020&context=hca-oralhist'; # textual
+#$url = 'http://digitalcommons.ohsu.edu/cgi/viewcontent.cgi?article=1020&context=hca-oralhist'; # textual
 #$url = 'http://digitalcommons.ohsu.edu/cgi/viewcontent.cgi?article=2108&context=etd'; # image pdf 
+$url = 'http://digitalcommons.ohsu.edu/cgi/viewcontent.cgi?article=1000&context=hca-oralhist'; # textual
 
 my $content = get($url);
 die "Couldn't download page" unless defined $content;

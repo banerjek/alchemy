@@ -36,7 +36,8 @@ printf $result;
 
 my $entityParams = new AlchemyAPI_EntityParams();
 $entityParams->SetMaxRetrieve(2);
-$entityParams->SetDisambiguate(1);
+$entityParams->SetDisambiguate(0);
+$entityParams->SetLinkedData(0);
 $entityParams->SetSentiment(1);
 $entityParams->SetOutputMode(AlchemyAPI_BaseParams::OUTPUT_MODE_RDF);
 
