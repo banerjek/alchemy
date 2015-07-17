@@ -1,0 +1,9 @@
+################################################################
+Experimentation with Alchemy API for relating archival documents
+################################################################
+
+Purpose of this code is to experiment with Alchemy API to extract text from oral histories, EAD, and other documents for purposes of identifying new access points and identifying related materials. 
+
+To run these samples, you will need an Alchemy API key and create an api_key.txt file that must be included with the files.
+
+Since I am only interested in a tiny subset of the functionality of the Alchemy API, those interested in further experimentation should get a key and download the full SDK
